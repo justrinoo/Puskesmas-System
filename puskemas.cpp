@@ -64,6 +64,7 @@ class Farmasi {
         cout << "Petugas memberikan stempel resmi... \n";
         cout << "Petugas menyerahkan obat kepada pasien... \n";
         cout << "Pasien mendapatkan obat... \n";
+        pulang.PasienPulang();
     }
 
 
