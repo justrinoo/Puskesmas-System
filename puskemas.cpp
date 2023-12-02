@@ -1,7 +1,17 @@
 #include <iostream>
 #include <iomanip> // Header untuk manipulator lebar lapangan
-
+#include <random>
+#include <string>
 using namespace std;
+
+class GlobalData {
+    public:
+    string isJawabanRawatInapUnitPelayanan;
+
+    void setDataJawabanRawatInapUnitPelayanan(string hasilJawabanRIUnitPelayanan){
+        isJawabanRawatInapUnitPelayanan = hasilJawabanRIUnitPelayanan;
+    };
+};
 
 class Pasien {
     public:
@@ -37,6 +47,23 @@ class Farmasi {
         harga_obat = hasilHargaObat;
         total_harga = hasilTotalHarga;
         nama_obat = hasilNamaObat;
+    }
+
+    void cetakKwitansi_AfterPendaftaranBPJS(){
+        cout << "================== KWITANSI OBAT ================================================================================================ \n";
+        cout << setw(13) << left << "Nomor Kartu BPJS" << setw(20) << right << "Nama Pasien" << setw(20) << right << "Alamat Pasien" << "\n";
+        cout << setw(20) << left << pasien.nomor_pasien << setw(20) << right << pasien.nama_pasien << setw(20) << right << pasien.alamat << "\n";
+        cout << "============================================================================================================\n";
+        cout << setw(20) << left << "Nama Obat" << setw(20) << right << "Jumlah Obat" << setw(20) << right << "Kandungan" << setw(20) << right << "Harga Obat" << "\n";
+        cout << setw(20) << left << "Dexamethasone" << setw(20) << right << "1" << setw(20) << right << "15ml" << setw(20) << right << "15.000" <<  "\n";
+        cout << setw(20) << left << "Antiseptik Betadine 15 Ml" << setw(16) << right << "1" << setw(17) << right << "15ml" << setw(18) << right << "25.000" << "\n";
+        cout << setw(20) << left << "Amoxicillin 500 mg" << setw(20) << right << "10 Tablet" << setw(20) << right << "0.5 mg/butir" << setw(20) << right << "20.000" << "\n";
+        cout << "============================================================================================================ \n";
+        cout << setw(20) << left << "Total Harga" << fixed << setprecision(2) << setw(20) << right << "Rp. 60.000" << "\n";
+        cout << "====================================================== \n";
+        cout << "Petugas memberikan stempel resmi... \n";
+        cout << "Petugas menyerahkan obat kepada pasien... \n";
+        cout << "Pasien mendapatkan obat... \n";
     }
 
 
@@ -97,6 +124,7 @@ class IGD {
 
 class RawatInap {
     public:
+        GlobalData global;
         IGD::Penunjang penunjang;
         Pulang pulang;
         Farmasi farmasi;
@@ -124,20 +152,14 @@ class RawatInap {
                 if(jawbaan_sembuh == "yes"){
                     // logic farmasi
                    farmasi.pasien = pasien;
-                   // tampilkan obat untuk IGD -> Farmasi
-                    cout << "================== KWITANSI OBAT ================== \n";
-                    cout << setw(13) << left << "Nomor Kartu BPJS" << setw(20) << right << "Nama Pasien" << setw(20) << right << "Alamat Pasien" << "\n";
-                    cout << setw(20) << left << pasien.nomor_pasien << setw(20) << right << pasien.nama_pasien << setw(20) << right << pasien.alamat << "\n";
-                    cout << "======================================================\n";
-                    cout << setw(20) << left << "Nama Obat" << setw(20) << right << "Jumlah Obat" << setw(20) << right << "Harga Obat" << "\n";
-                    cout << setw(20) << left << "Antiseptik Betadine 15 Ml" << setw(20) << right << "1" << setw(20) << right << "15ml" << "\n";
-                    cout << "====================================================== \n";
-                    cout << setw(20) << left << "Total Harga" << fixed << setprecision(2) << setw(20) << right << "15000" << "\n";
-                    cout << "====================================================== \n";
-                    cout << "Petugas memberikan stempel resmi... \n";
-                    cout << "Petugas menyerahkan obat kepada pasien... \n";
-                    cout << "Pasien mendapatkan obat... \n";
-                    pulang.PasienPulang();
+                        farmasi.cetakKwitansi_AfterPendaftaranBPJS();
+                //    if(unit_pelayanan.global.isJawabanRawatInapUnitPelayanan == "yes"){
+                //         // tampilkan obat untuk IGD dari unit pelayanan -> Farmasi
+                //         farmasi.main();
+                //         pulang.PasienPulang();
+                //    }else{
+                //         pulang.PasienPulang();
+                //    }
                 }else{
                     cout << "Meninggal \n";
                     pulang.PasienPulang();
@@ -146,8 +168,10 @@ class RawatInap {
         }
 };
 
+
 class UnitPelayanan {
     public:
+    GlobalData global;
     Pasien pasien;
     RawatInap rawat_inap;
     Farmasi farmasi;
@@ -166,7 +190,7 @@ class UnitPelayanan {
                 cout << "Pemeriksaan... \n";
                 cout << "Apakah penyakit berat? (yes/no): ", cin >> is_jawaban_penyakit_berat;
                 if(is_jawaban_penyakit_berat == "yes"){
-                    // penyakit berat
+                    // penyakit berat ?
                     cout << "Obat obat penyakit berat... \n";
                     cout << "Dokter Gizi Menginput Data... \n";
                     cout << "Nama obat: ", cin >> farmasi.nama_obat;
@@ -182,13 +206,14 @@ class UnitPelayanan {
                     cout << setw(20) << left << "Total Harga" << fixed << setprecision(2) << setw(20) << right << farmasi.total_harga << "\n";
                     cout << "================================================================== \n";
 
-
                     cout << "Apakah pasien perlu dirawat? (yes/no): ", cin >> jawaban_dokter_dirawat;
                     if(jawaban_dokter_dirawat == "yes"){
                         // Rawat Inap
                         farmasi.pasien = pasien;
                         rawat_inap.pasien = pasien;
                         rawat_inap.main();
+                        global.isJawabanRawatInapUnitPelayanan = "yes";
+                        global.setDataJawabanRawatInapUnitPelayanan("yes");
                     }else if(jawaban_dokter_dirawat == "no"){
                         // Farmasi
                         rawat_inap.pasien = pasien;
@@ -222,6 +247,7 @@ class UnitPelayanan {
                         farmasi.pasien = pasien;
                         rawat_inap.pasien = pasien;
                         rawat_inap.main();
+                        global.setDataJawabanRawatInapUnitPelayanan("yes");
                     }else if(jawaban_dokter_dirawat == "no"){
                         // Farmasi
                         rawat_inap.pasien = pasien;
@@ -263,6 +289,7 @@ class UnitPelayanan {
                         farmasi.pasien = pasien;
                         rawat_inap.pasien = pasien;
                         rawat_inap.main();
+                        global.setDataJawabanRawatInapUnitPelayanan("yes");
                     }else if(jawaban_dokter_dirawat == "no"){
                         // Farmasi
                         rawat_inap.pasien = pasien;
@@ -296,6 +323,7 @@ class UnitPelayanan {
                         farmasi.pasien = pasien;
                         rawat_inap.pasien = pasien;
                         rawat_inap.main();
+                        global.setDataJawabanRawatInapUnitPelayanan("yes");
                     }else if(jawaban_dokter_dirawat == "no"){
                         // Farmasi
                         rawat_inap.pasien = pasien;
@@ -355,7 +383,19 @@ class BPJS {
             }else if(jawaban_perlu_penanganan == "no"){
                 // Farmasi
                 farmasi.pasien = pasien;
-                farmasi.main();
+                    cout << "============================== KWITANSI OBAT =================================================== \n";
+                    cout << setw(13) << left << "Nomor Kartu BPJS" << setw(20) << right << "Nama Pasien" << setw(20) << right << "Alamat Pasien" << "\n";
+                    cout << setw(20) << left << pasien.nomor_pasien << setw(20) << right << pasien.nama_pasien << setw(20) << right << pasien.alamat << "\n";
+                    cout << "============================================================================================================\n";
+                    cout << setw(20) << left << "Nama Obat" << setw(20) << right << "Jumlah Obat" << setw(20) << right << "Kandungan" << setw(20) << right << "Harga Obat" << "\n";
+                    cout << setw(20) << left << "Paracetamol 500 mg" << setw(20) << right << "10" << setw(20) << right << "500mg" << setw(20) << right << "50000" <<  "\n";
+                    cout << "============================================================================================================ \n";
+                    cout << setw(20) << left << "Total Harga" << fixed << setprecision(2) << setw(20) << right << "Rp. 50.000" << "\n";
+                    cout << "====================================================== \n";
+                    cout << "Petugas memberikan stempel resmi... \n";
+                    cout << "Petugas menyerahkan obat kepada pasien... \n";
+                    cout << "Pasien mendapatkan obat... \n";
+                    pulang.PasienPulang();
             }else{
                 cout << "Pilihan anda tidak sesuai";
             }
@@ -376,16 +416,15 @@ int main(){
     Farmasi farmasi;
 
     cout << "Pasien Datang" << endl;
-    dataPasien.nomor_pasien = 20;
-    cout << "Nomor Pasien : " << dataPasien.nomor_pasien;
+    // random angka dari 1-100 untuk pasien mendapatkan nomor pasien
+    std::srand(static_cast<unsigned int>(std::time(nullptr)));
+    std::mt19937 rng(std::rand());
+    std::uniform_int_distribution<int> distribution(1, 100);
+    int randomNumber = distribution(rng);
+    dataPasien.nomor_pasien = randomNumber;
+    cout << "Nomor Pasien : " << dataPasien.nomor_pasien << "\n";
     cout << "Masukan Nama Pasien : ", cin >> dataPasien.nama_pasien;
-    cin.ignore();
-    getline(cin, dataPasien.nama_pasien);
-    dataPasien.nama_pasien = dataPasien.nama_pasien.substr(0, 30);
     cout << "Masukan Alamat Pasien : ", cin >> dataPasien.alamat;
-    cin.ignore();
-    getline(cin, dataPasien.alamat);
-    dataPasien.alamat = dataPasien.alamat.substr(0, 30);
     cout << "Masukan Nomor Telephone : ", cin >> dataPasien.no_tlp;
     cout << "========================================================= \n";
     cout << "Hasil Nomor Pasien : " << dataPasien.nomor_pasien << "\n";
