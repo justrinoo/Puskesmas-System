@@ -111,14 +111,11 @@ class IGD {
         int PerluRujukan(){
             cout << "Masukan Nomor Kartu BPJS Asli: ";
             cin >> no_kartu_bpjs_asli;
-            cout << "Masukan 1 Lembar Foto Copy BPJS: ";
-            cin >> fotocopy_bpjs;
-            cout << "Masukan KTP Asli: ";
+            cout << "1 Lembar Foto Copy BPJS: " << "FotoCopy_BPJS.png" << "\n";
+            cout << "Masukan Nomor KTP Asli: ";
             cin >> fotocopy_ktp;
-
             cout << "Nomor Kartu BPJS Asli: "<< no_kartu_bpjs_asli << "\n";
-            cout << "1 Lembar Foto Copy BPJS: "<< fotocopy_bpjs << "\n";
-            cout << "KTP Asli: " << fotocopy_ktp << "\n";
+            cout << "Nomor KTP Asli: " << fotocopy_ktp << "\n";
         }
     };
 };
@@ -152,6 +149,9 @@ class RawatInap {
                 cout << "Apakah pasien sembuh? (yes/no):", cin >> jawbaan_sembuh;
                 if(jawbaan_sembuh == "yes"){
                     // logic farmasi
+                cout << "Farmasi... \n";
+
+                cout << "Mencetak Kwitansi Obat... \n";
                    farmasi.pasien = pasien;
                    farmasi.cetakKwitansi_AfterPendaftaranBPJS();
                 }else{
@@ -189,9 +189,9 @@ class UnitPelayanan {
                     cout << "Dokter Gizi Menginput Data... \n";
                     cout << "========= RESEP DOKTER GIZI OBAT PENYAKIT BERAT ================== \n";
                     cout << setw(20) << left << "Nama Obat" << setw(20) << right << "Jumlah Obat" << setw(20) << right << "Kandungan" << setw(20) << right << "Harga Obat" << "\n";
-                    cout << setw(20) << left << "Paracetamol Obat Demam" << setw(20) << right << "10" << setw(20) << right << "500mg" << setw(20) << right << "5000" <<  "\n";
+                    cout << setw(20) << left << "HIMALAYA LIV" << setw(20) << right << "10" << setw(20) << right << "10" << setw(20) << right << "6000" <<  "\n";
                     cout << "============================================================================================================ \n";
-                    cout << setw(20) << left << "Total Harga" << fixed << setprecision(2) << setw(20) << right << "Rp. 50.000" << "\n";
+                    cout << setw(20) << left << "Total Harga" << fixed << setprecision(2) << setw(20) << right << "Rp 60.000" << "\n";
                     cout << "================================================================== \n";
 
                     cout << "Apakah pasien perlu dirawat? (yes/no): ", cin >> jawaban_dokter_dirawat;
@@ -204,7 +204,6 @@ class UnitPelayanan {
                         global.setDataJawabanRawatInapUnitPelayanan("yes");
                     }else if(jawaban_dokter_dirawat == "no"){
                         // Farmasi
-                        cout << "========================================================= \n";
                         cout << "========================================================= \n";
                         cout << "Farmasi... \n";
                         cout << "Cetak Kwitansi Obat... \n";
@@ -219,7 +218,7 @@ class UnitPelayanan {
                         cout << setw(20) << left << pasien.nomor_pasien << setw(20) << right << pasien.nama_pasien << setw(20) << right << pasien.alamat << "\n";
                         cout << "======================================================\n";
                         cout << setw(20) << left << "Nama Obat" << setw(20) << right << "Jumlah Obat" << setw(20) << right << "Harga Obat" << "\n";
-                        cout << setw(20) << left << "Paracetamol Obat Demam" << setw(20) << right << "10" << setw(20) << right << "5000" << "\n";
+                        cout << setw(20) << left << "Paracetamol Obat Demam" << setw(20) << right << "10" << setw(20) << right << "5.000" << "\n";
                         cout << "====================================================== \n";
                         cout << setw(20) << left << "Total Harga" << fixed << setprecision(2) << setw(20) << right << "Rp. 50.000" << "\n";
                         cout << "====================================================== \n";
@@ -232,13 +231,13 @@ class UnitPelayanan {
                     }
                 }else if(is_jawaban_penyakit_berat == "no"){
                     // penyakit ringan
-                    cout << "Penyakit Ringan";
+                    cout << "Penyakit Ringan... \n";
                     cout << "Obat obat penyakit ringan... \n";
                     cout << "Dokter Gizi Menginput Data... \n";
                     cout << "\n";
-                    cout << "========= RESEP DOKTER GIZI OBAT PENYAKIT BERAT ================== \n";
+                    cout << "========= RESEP DOKTER GIZI OBAT PENYAKIT RINGAN ================== \n";
                     cout << setw(20) << left << "Nama Obat" << setw(20) << right << "Jumlah Obat" << setw(20) << right << "Kandungan" << setw(20) << right << "Harga Obat" << "\n";
-                    cout << setw(20) << left << "Oxydone Forte LA" << setw(20) << right << "1" << setw(20) << right << "100ml" << setw(20) << right << "125.000" <<  "\n";
+                    cout << setw(20) << left << "PROVEZ" << setw(20) << right << "5" << setw(20) << right << "20mg" << setw(20) << right << "25.000" <<  "\n";
                     cout << "============================================================================================================ \n";
                     cout << setw(20) << left << "Total Harga" << fixed << setprecision(2) << setw(20) << right << "Rp. 125.000" << "\n";
                     cout << "================================================================== \n";
@@ -294,9 +293,9 @@ class UnitPelayanan {
                     cout << "\n";
                     cout << "========= RESEP DOKTER UMUM OBAT PENYAKIT BERAT ================== \n";
                     cout << setw(20) << left << "Nama Obat" << setw(20) << right << "Jumlah Obat" << setw(20) << right << "Kandungan" << setw(20) << right << "Harga Obat" << "\n";
-                    cout << setw(20) << left << "HIMALAYA LIV" << setw(20) << right << "10" << setw(20) << right << "100tabs" << setw(20) << right << "60.000" <<  "\n";
+                    cout << setw(20) << left << "Oxydone Forte LA" << setw(20) << right << "1" << setw(20) << right << "100ml" << setw(20) << right << "125.000" <<  "\n";
                     cout << "============================================================================================================ \n";
-                    cout << setw(20) << left << "Total Harga" << fixed << setprecision(2) << setw(20) << right << "Rp. 600.000" << "\n";
+                    cout << setw(20) << left << "Total Harga" << fixed << setprecision(2) << setw(20) << right << "Rp. 125.000" << "\n";
                     cout << "================================================================== \n";
 
 
@@ -337,15 +336,15 @@ class UnitPelayanan {
                     }
                 }else if(is_jawaban_penyakit_berat == "no"){
                     // penyakit ringan
-                    cout << "Penyakit Ringan";
+                    cout << "Penyakit Ringan... \n";
                     cout << "Obat obat penyakit ringan... \n";
                     cout << "Dokter Umum Menginput Data... \n";
                     cout << "\n";
                     cout << "========= RESEP DOKTER UMUM OBAT PENYAKIT RINGAN ================== \n";
                     cout << setw(20) << left << "Nama Obat" << setw(20) << right << "Jumlah Obat" << setw(20) << right << "Kandungan" << setw(20) << right << "Harga Obat" << "\n";
-                    cout << setw(20) << left << "Provez" << setw(20) << right << "5" << setw(20) << right << "20mg" << setw(20) << right << "25.000" <<  "\n";
+                    cout << setw(20) << left << "Paracetamol Obat Demam" << setw(20) << right << "10" << setw(20) << right << "500mg" << setw(20) << right << "5000" <<  "\n";
                     cout << "============================================================================================================ \n";
-                    cout << setw(20) << left << "Total Harga" << fixed << setprecision(2) << setw(20) << right << "Rp. 125.000" << "\n";
+                    cout << setw(20) << left << "Total Harga" << fixed << setprecision(2) << setw(20) << right << "Rp. 50.000" << "\n";
                     cout << "================================================================== \n";
                     cout << "Apakah pasien perlu dirawat? (yes/no): ", cin >> jawaban_dokter_dirawat;
                     if(jawaban_dokter_dirawat == "yes"){
@@ -432,7 +431,7 @@ class BPJS {
                unit_pelayanan.main();
             }else if(jawaban_perlu_penanganan == "no"){
                 // Farmasi
-                farmasi.pasien = pasien;
+                    farmasi.pasien = pasien;
                     cout << "============================== KWITANSI OBAT =================================================== \n";
                     cout << setw(13) << left << "Nomor Kartu BPJS" << setw(20) << right << "Nama Pasien" << setw(20) << right << "Alamat Pasien" << "\n";
                     cout << setw(20) << left << pasien.nomor_pasien << setw(20) << right << pasien.nama_pasien << setw(20) << right << pasien.alamat << "\n";
